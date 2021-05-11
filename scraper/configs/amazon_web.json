@@ -1,0 +1,10 @@
+{
+    "WEB_TITLE_ID": "productTitle",
+    "WEB_PRICE_ID": "priceblock_ourprice",
+    "WEB_FEATURE_ID": "featurebullets_feature_div",
+    "WEB_PRODUCT_DETAILS_ID": "productDetails_detailBullets_sections1",
+    "WEB_REVIEWS_ID":  "reviewsMedley",
+    "WEB_NUMBER_REVIEWS_ID": "acrCustomerReviewText",
+    "WEB_ASIN_CLASS":  "prodDetAttrValue",
+    "WEB_RATING_CLASS":  "a-size-medium"
+}

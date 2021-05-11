@@ -1,0 +1,8 @@
+{
+    "BUCKET": "AMAZON",
+    "TOKEN": "my-super-secret-auth-token",
+    "URL":  "http://localhost:8086",
+    "INFLUX_USERNAME":  "kjn",
+    "INFLUX_PASSWORD": "parmesan007",
+    "ORG": "scr@pers"
+}

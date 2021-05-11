@@ -1,0 +1,9 @@
+{
+    "SCRAPER_EMAIL": "yourfriendlyscraper@gmail.com",
+    "SCRAPER_ACC_PASSWORD":  "$cc@p3r_007",
+    "CURRENCY" : {
+        "€": "Euro(s)",
+        "$": "USD(s)",
+        "£": "Pound(s)"
+    }
+}
