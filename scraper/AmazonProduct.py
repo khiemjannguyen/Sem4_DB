@@ -3,16 +3,9 @@ import re
 from Functions import *
 
 WEB_CONFIGS = get_config("amazon_web.json")
-
 WEB_TITLE_ID = WEB_CONFIGS["WEB_TITLE_ID"]
 WEB_REVIEWS_ID = WEB_CONFIGS["WEB_REVIEWS_ID"]
 
-
-def product_id_legit(product_id: str):
-    if product_id:
-        if product_id != "product" and product_id.count("-")==0:
-            return True
-    return False
 
 class AmazonProduct:
     """
@@ -116,10 +109,18 @@ class AmazonProduct:
         Returns:
             currency (str): currency of price of Amazon Product
         """
-        # seperate currency from price
-        price_info = self.__driver.find_element_by_id(WEB_CONFIGS["WEB_PRICE_ID"]).text
-        currency = price_info.split()[1]
-        return currency
+        try:
+            # seperate currency from price
+            price_info = self.__driver.find_element_by_id(
+                WEB_CONFIGS["WEB_PRICE_ID"]).text
+            currency = price_info.split()[1]
+            return currency
+        except Exception as e:
+            print(e)
+            print(
+                f"Failed to get currency of price - {self.__driver.current_url}")
+            return None
+       
 
     def get_review_starsRate(self):
         """

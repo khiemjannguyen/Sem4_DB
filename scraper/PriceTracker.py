@@ -1,14 +1,20 @@
-from AmazonProduct import *
 import crud
+import smtplib
+
+from AmazonProduct import *
 from datetime import datetime
 from influxdb_client import Point
 from config_getter import get_config
+
 DB_CONFIGS = get_config("db.json")
-
+NOTIFY_CONFIGS = get_config("notify.json")
 BUCKET_NAME = DB_CONFIGS["BUCKET"]
+CURRENCY = NOTIFY_CONFIGS["CURRENCY"]
+SCRAPER_EMAIL = NOTIFY_CONFIGS["SCRAPER_EMAIL"]
+SCRAPER_ACC_PASSWORD = NOTIFY_CONFIGS["SCRAPER_ACC_PASSWORD"]
 
 
-class Scraper:
+class PriceTracker:
     """
     A class to manage the Scraping of a Amazon Product
 
@@ -25,7 +31,8 @@ class Scraper:
         __notify_email (str): Email which will be notified when wish price is reached
 
     """
-    def __init__(self, amazon_product, wish_price, notify_email):
+
+    def __init__(self, amazon_product, wish_price, notify_email, openInfluxDB_GUI):
         """
         __init__ method sets up all attributes of class and creates InfluxDB Bucket if needed
 
@@ -33,10 +40,12 @@ class Scraper:
             product_url (string): URL of Amazon Product
         """
         self.__product = amazon_product
+        self.__notify_email = notify_email
+        self.__openInfluxDB_GUI = openInfluxDB_GUI
         self.__wish_price = float(wish_price)
         self.__tag_key = "product_id"
         self.__tag_value = str(self.__product.product_id)
-        self.__notify_email = notify_email
+        
 
         # create bucket only if it's not existing
         crud.create_bucket(BUCKET_NAME)
@@ -52,7 +61,7 @@ class Scraper:
             True||False: Boolean whether wish price is satisfied or not
         """
         
-        if current_price <= self.__wish_price and current_price+1 >= self.__wish_price:
+        if current_price <= self.__wish_price or current_price+1 >= self.__wish_price:
             return True
         return False
 
@@ -62,7 +71,6 @@ class Scraper:
 
         """
         flag = True
-        openedInfluxDB_UI = False
         while flag:
             # get current info
             current_price = self.__product.get_price()
@@ -84,9 +92,9 @@ class Scraper:
             # write Points in Bucket
             crud.write_points(points=points, bucket_name=BUCKET_NAME)
 
-            if openedInfluxDB_UI == False:
+            if self.__openInfluxDB_GUI==True:
                 open_InfluxDB_UI()
-                openedInfluxDB_UI = True
+                self.__openInfluxDB_GUI = False
             
             # notify user ?
             if self.check_wish_price_satisfied(current_price):
@@ -141,7 +149,6 @@ class Scraper:
 
         # send notification email to given email
         try:
-            
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             server.login(SCRAPER_EMAIL, SCRAPER_ACC_PASSWORD)
             server.sendmail(SCRAPER_EMAIL, self.__notify_email, message)
