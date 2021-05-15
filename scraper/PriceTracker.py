@@ -61,7 +61,7 @@ class PriceTracker:
             True||False: Boolean whether wish price is satisfied or not
         """
         
-        if current_price <= self.__wish_price or current_price+1 >= self.__wish_price:
+        if current_price <= self.__wish_price or current_price <= self.__wish_price+1:
             return True
         return False
 
@@ -71,6 +71,7 @@ class PriceTracker:
 
         """
         flag = True
+        firstTime = True
         while flag:
             # get current info
             current_price = self.__product.get_price()

@@ -1,6 +1,7 @@
 {
     "WEB_TITLE_ID": "productTitle",
-    "WEB_PRICE_ID": "priceblock_ourprice",
+    "WEB_OURPRICE_ID": "priceblock_ourprice",
+    "WEB_DEALPRICE_ID": "priceblock_dealprice",
     "WEB_FEATURE_ID": "featurebullets_feature_div",
     "WEB_PRODUCT_DETAILS_ID": "productDetails_detailBullets_sections1",
     "WEB_REVIEWS_ID":  "reviewsMedley",

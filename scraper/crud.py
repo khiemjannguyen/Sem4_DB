@@ -9,7 +9,7 @@ BUCKET = CONFIGS["BUCKET"]
 TOKEN = CONFIGS["TOKEN"]
 URL = CONFIGS["URL"]
 
-# create apis
+# Create APIs
 client = InfluxDBClient(url=URL, token=TOKEN, org=ORG)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
@@ -19,7 +19,7 @@ organisation_api = client.organizations_api()
 
 def get_org_id(org_name: str, org_api: OrganizationsApi = organisation_api):
     """
-    Gets  organization ID of InfluxDB database
+    Gets organization ID of InfluxDB organization name
 
     Args:
         org_name (str): name of organization of InfluxDB database
@@ -34,8 +34,10 @@ def get_org_id(org_name: str, org_api: OrganizationsApi = organisation_api):
             if org.name == org_name:
                 return org.id
         return None
-    except:
-        pass
+    except Exception as e:
+        print(e)
+        print(f"Failed to get organization id of {org_name}")
+        return None
 
 
 ORG_ID = get_org_id(org_name=ORG)
@@ -51,11 +53,16 @@ def bucket_exists(bucket_name: str, buckets_api: BucketsApi = buckets_api):
     Returns:
         (boolean)
     """
-    bucket = buckets_api.find_bucket_by_name(bucket_name)
-    if bucket:
-        return True
-    else:
-        return False
+    try:
+        bucket = buckets_api.find_bucket_by_name(bucket_name)
+        if bucket:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        print(f"Failed to create Bucket {bucket_name}")
+        return None
 
 def create_bucket(bucket_name: str, org_id: str = ORG_ID, buckets_api: BucketsApi = buckets_api):
     """
@@ -66,10 +73,13 @@ def create_bucket(bucket_name: str, org_id: str = ORG_ID, buckets_api: BucketsAp
         org_id (str, optional): organization ID of InfluxDB database. Defaults to ORG_ID.
         buckets_api (BucketsApi, optional): API of organization of InfluxDB database. Defaults to buckets_api.
     """
-    if not bucket_exists(bucket_name):
-        buckets_api.create_bucket(Bucket(name=bucket_name, retention_rules=[], org_id=org_id))
-
-
+    try:
+        if not bucket_exists(bucket_name):
+            buckets_api.create_bucket(Bucket(name=bucket_name, retention_rules=[], org_id=org_id))
+    except Exception as e:
+        print(e)
+        print(f"Failed to create Bucket {bucket_name}")
+        return None
 
 def write_points(points: list, bucket_name: str, write_api: WriteApi = write_api):
     """
@@ -80,7 +90,12 @@ def write_points(points: list, bucket_name: str, write_api: WriteApi = write_api
         bucket_name (str): name of InfluxDB Bucket
         write_api (WriteApi, optional): API for writing into InfluxDB Bucket. Defaults to write_api.
     """
-    write_api.write(bucket=bucket_name, record=points)
+    try:
+        write_api.write(bucket=bucket_name, record=points)
+    except Exception as e:
+        print(e)
+        print(f"Failed to write Point into {bucket_name}")
+        return None
 
 
 def get_points(bucket_name: str, measurement: str, key: str, value: str, timedelta: str = "-10y", query_api: QueryApi = query_api):

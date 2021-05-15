@@ -65,7 +65,7 @@ def open_InfluxDB_UI():
         # open Data Explorer
         time.sleep(2)
         browser.get(
-            f"http://localhost:8086/orgs/74a859c8652b421e/data-explorer?bucket={BUCKET_NAME}")
+            f"http://localhost:8086/orgs/{ORG_ID}/data-explorer?bucket={BUCKET_NAME}")
 
         # set Filter to product_id
         time.sleep(1.5)

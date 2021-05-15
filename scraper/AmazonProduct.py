@@ -92,15 +92,25 @@ class AmazonProduct:
             None: When getting the price fails
         """
         try:
-            # seperate price from currency
-            price_info = self.__driver.find_element_by_id(WEB_CONFIGS["WEB_PRICE_ID"]).text
+            # seperate price from currency to get price
+            price_info = self.__driver.find_element_by_id(WEB_CONFIGS["WEB_OURPRICE_ID"]).text
             price = float(price_info.split()[0].replace(',', '.'))
             return price
         except Exception as e:
-            print(e)
-            print(
-                f"Failed to get price of the product - {self.__driver.current_url}")
-            return None
+            # product is a deal at the moment
+            try:
+                # seperate price from currency
+                price_info = self.__driver.find_element_by_id(
+                    WEB_CONFIGS["WEB_DEALPRICE_ID"])
+                price_info = self.__driver.find_element_by_id(
+                    WEB_CONFIGS["WEB_DEALPRICE_ID"]).text
+                price = float(price_info.split()[0].replace(',', '.'))
+                return price
+            except Exception as e:
+                print(e)
+                print(
+                    f"Failed to get price of the product - {self.__driver.current_url}")
+                return None
 
     def get_currency(self):
         """
@@ -112,14 +122,23 @@ class AmazonProduct:
         try:
             # seperate currency from price
             price_info = self.__driver.find_element_by_id(
-                WEB_CONFIGS["WEB_PRICE_ID"]).text
+                WEB_CONFIGS["WEB_OURPRICE_ID"]).text
             currency = price_info.split()[1]
             return currency
         except Exception as e:
-            print(e)
-            print(
-                f"Failed to get currency of price - {self.__driver.current_url}")
-            return None
+            try:
+                # seperate currency from price
+                price_info = self.__driver.find_element_by_id(
+                    WEB_CONFIGS["WEB_DEALPRICE_ID"])
+                price_info = self.__driver.find_element_by_id(
+                    WEB_CONFIGS["WEB_DEALPRICE_ID"]).text
+                currency = price_info.split()[1]
+                return currency
+            except Exception as e:
+                print(e)
+                print(
+                    f"Failed to get currency of price - {self.__driver.current_url}")
+                return None
        
 
     def get_review_starsRate(self):

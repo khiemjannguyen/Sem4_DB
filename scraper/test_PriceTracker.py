@@ -13,7 +13,7 @@ class Test_PriceTracker(unittest.TestCase):
 
     def test_check_wish_price_satisfied(self):
         self.assertTrue(self.priceTracker.check_wish_price_satisfied(90.00))
-        self.assertFalse(self.priceTracker.check_wish_price_satisfied(100.00))
+        self.assertFalse(self.priceTracker.check_wish_price_satisfied(200.00))
 
     def test_notify_consumer(self):
         self.priceTracker.__notify_email = "fail@fail.fail"
