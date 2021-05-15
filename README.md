@@ -7,7 +7,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-This project is an assignment for the database lecture in the 4th semester IT-Automotive at the DHBW Stuttgart.\\
+This project is an assignment for the database lecture in the 4th semester IT-Automotive at the DHBW Stuttgart.\
 The Amazon Scraper is a tool which helps you to track the price of your next possible Amazon purchase. If you are planning to buy a product on Amazon, but the price seems to expensive, the Amazon Scraper will help you! All you have to do is to specify the Amazon-URL, your desired price and your email. The Amazon Scraper will track the price of the given product and will notify your email, when the price drops to your desired price.
 
 
