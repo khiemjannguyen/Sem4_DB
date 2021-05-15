@@ -78,6 +78,16 @@ Open your folder, where you cloned the repository and navigate to scraper:
    bash run_tests.sh
    ```
 
+## BUG FIX
+When "UnicodeEncodeError: 'ascii' codec can't encode character 'something e.g:"\xc5"' in position 398: ordinal not in range(128)" occurs:
+1. open 'opt/anaconda3/lib/python3.8/smtplib.py", line 859'
+   ```
+   msg = _fix_eols(msg).encode('ascii')
+   ```
+1. change 'opt/anaconda3/lib/python3.8/smtplib.py", line 859' to
+   ```
+   msg = _fix_eols(msg).encode('utf-8')
+   ```
 
 
 

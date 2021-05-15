@@ -134,7 +134,7 @@ class PriceTracker:
         # prepare notification email
         title = self.__product.title
         price = str(self.__product.get_price())
-        currency = CURRENCY[self.__product.get_currency()]
+        currency = self.__product.get_currency()
         link = self.__product.productURL
         message = f"""
         Hey you,
@@ -149,13 +149,10 @@ class PriceTracker:
         """
 
         # send notification email to given email
-        try:
-            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-            server.login(SCRAPER_EMAIL, SCRAPER_ACC_PASSWORD)
-            server.sendmail(SCRAPER_EMAIL, self.__notify_email, message)
-            server.quit()
-        except Exception as e:
-            print(e)
-            print(f"Failed to send E-Mail")
-            return None
+
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.login(SCRAPER_EMAIL, SCRAPER_ACC_PASSWORD)
+        server.sendmail(SCRAPER_EMAIL, self.__notify_email, message)
+        server.quit()
+
 

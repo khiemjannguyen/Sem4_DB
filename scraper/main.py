@@ -16,7 +16,7 @@ def main(url: str, wish_price: float, notify_email: str, openInfluxDB_GUI: bool)
 if __name__ == "__main__":
     url = str(input("Please paste URL of Amazon Product: "))
     wish_price = float(input("Please enter desired price [xx.xx]: "))
-    notify_email = str(input("Please enter your email: "))
+    notify_email = input("Please enter your email: ")
     openInfluxDB_GUI = input("Open InfluxDB GUI to see Price Chart [Yes||No]: ")
     if openInfluxDB_GUI == "Yes":
         openInfluxDB_GUI = True
