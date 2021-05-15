@@ -14,8 +14,8 @@ def main(url: str, wish_price: float, notify_email: str, openInfluxDB_GUI: bool)
     scraper.scraping_loop()
 
 if __name__ == "__main__":
-    url = str(input("Please paste URL of Amazon Product URL: "))
-    wish_price = float(input("Please enter Wish Price [xx.xx]: "))
-    notify_email = str(input("Please enter your E-Mail: "))
+    url = str(input("Please paste URL of Amazon Product: "))
+    wish_price = float(input("Please enter desired price [xx.xx]: "))
+    notify_email = str(input("Please enter your email: "))
     openInfluxDB_GUI = bool(input("Open InfluxDB GUI to see Price Chart [True||False]: "))
     main(url, wish_price, notify_email, openInfluxDB_GUI)
