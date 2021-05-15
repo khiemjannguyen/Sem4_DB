@@ -71,7 +71,6 @@ class PriceTracker:
 
         """
         flag = True
-        firstTime = True
         while flag:
             # get current info
             current_price = self.__product.get_price()
@@ -93,7 +92,8 @@ class PriceTracker:
             # write Points in Bucket
             crud.write_points(points=points, bucket_name=BUCKET_NAME)
 
-            if self.__openInfluxDB_GUI==True:
+            # open InfluxDB GUI?
+            if self.__openInfluxDB_GUI == True:
                 open_InfluxDB_UI()
                 self.__openInfluxDB_GUI = False
             
